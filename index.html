@@ -1,1 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AndreiUTZ Site</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121110;
+      cursor: url(''), auto; /* Setăm cursorul personalizat */
+    }
+
+    .top-bar {
+      background-color: #1A120B;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+      transition: transform 0.5s ease, filter 0.5s ease;
+    }
+
+    .top-bar.hidden {
+      transform: translateY(-100%);
+      filter: blur(5px);
+    }
+
+    .top-bar img {
+      height: 40px;
+      position: absolute;
+      left: 20px;
+    }
+
+    .top-bar h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                   0 0 20px rgba(255, 255, 255, 0.6);
+      margin: 0;
+    }
+
+    .banner-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+    }
+
+    .banner {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: filter 0.2s ease;
+    }
+
+    .banner-container::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(to bottom, transparent, #121110);
+      pointer-events: none;
+    }
+
+    .extended-background {
+      width: 100%;
+      min-height: 1200px;
+      background-color: #121110;
+      position: relative;
+      padding-top: 150px;
+    }
+
+    .achievements-text {
+      font-size: 48px;
+      font-weight: bold;
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      margin-bottom: 20px;
+      text-align: center;
+      animation: glowPulse 2s infinite ease-in-out;
+    }
+
+    .achievements-text.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .eyeview-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(100px) scale(0.9);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      margin-top: 50px;
+    }
+
+    .eyeview-container.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .eyeview-container img {
+      width: 150px;
+      height: auto;
+      filter: blur(5px);
+      transition: filter 0.5s ease;
+      animation: zoomEffect 3s infinite ease-in-out;
+    }
+
+    .eyeview-container.visible img {
+      filter: blur(0);
+    }
+
+    .views-text, .followers-text {
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      margin-top: 20px;
+      animation: glowPulse 2s infinite ease-in-out;
+    }
+
+    .views-text.visible, .followers-text.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .followers-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(100px) scale(0.9);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      margin-top: 50px;
+    }
+
+    .followers-container.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .followers-container img {
+      width: 150px;
+      height: auto;
+      filter: blur(5px);
+      transition: filter 0.5s ease;
+      animation: zoomEffect 3s infinite ease-in-out;
+    }
+
+    .followers-container.visible img {
+      filter: blur(0);
+    }
+
+    /* Bara de jos */
+    .bottom-bar {
+      width: 100%; /* Lățimea exactă a paginii */
+      height: 80px; /* Grosime mare pentru conținut */
+      background-color: #2E1F18;
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Centrare pe orizontală */
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .bottom-bar .copyright {
+      text-align: center; /* Aliniere centrală */
+    }
+
+    .bottom-bar .copyright small {
+      display: block;
+      font-size: 12px; /* Text mai mic pentru "All rights reserved" */
+      font-weight: normal;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                     0 0 20px rgba(255, 255, 255, 0.6);
+      }
+      50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 1),
+                     0 0 30px rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    @keyframes zoomEffect {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar" id="top-bar">
+    <img src="ochelariutz.png" alt="Logo">
+    <h1>AndreiUTZ</h1>
+  </div>
+
+  <div class="banner-container">
+    <img src="utzbanner.png" alt="Banner" class="banner" id="banner">
+  </div>
+
+  <div class="extended-background">
+    <div class="achievements-text" id="achievements">ACHIEVEMENTS</div>
+    <div class="eyeview-container" id="eyeview-container">
+      <img src="eyeview.png" alt="Eye View">
+      <div class="views-text" id="views-text">2.000.000+ VIEWS</div>
+    </div>
+    <div class="followers-container" id="followers-container">
+      <img src="followerplus.png" alt="Followers Plus">
+      <div class="followers-text" id="followers-text">10.000+ FOLLOWERS</div>
+    </div>
+  </div>
+
+  <!-- Bara de jos -->
+  <div class="bottom-bar">
+    <div class="copyright">
+      Copyright 2025 © AndreiUTZ
+      <small>All rights reserved</small>
+    </div>
+  </div>
+
+  <script>
+    const achievementsText = document.getElementById('achievements');
+    const eyeviewContainer = document.getElementById('eyeview-container');
+    const viewsText = document.getElementById('views-text');
+    const followersContainer = document.getElementById('followers-container');
+    const followersText = document.getElementById('followers-text');
+    const banner = document.getElementById('banner');
+    const topBar = document.getElementById('top-bar');
+    let lastScrollY = window.scrollY;
+    let isScrollingDown = false;
+    let hideTimeout;
+
+    window.addEventListener('scroll', () => {
+      const rect = achievementsText.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      if (rect.top < windowHeight && rect.bottom > 0) {
+        achievementsText.classList.add('visible');
+        eyeviewContainer.classList.add('visible');
+        viewsText.classList.add('visible');
+        followersContainer.classList.add('visible');
+        followersText.classList.add('visible');
+      }
+
+      const scrollY = window.scrollY;
+      const blurValue = Math.min(scrollY / 100, 5); // Blur maxim de 5px
+      banner.style.filter = `blur(${blurValue}px)`;
+
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scroll în jos
+        if (!isScrollingDown) {
+          isScrollingDown = true;
+          clearTimeout(hideTimeout); // Anulăm orice timeout anterior
+          hideTimeout = setTimeout(() => {
+            topBar.classList.add('hidden'); // Ascundem bara după o întârziere
+          }, 300); // Așteptăm 300ms înainte de a ascunde bara
+        }
+      } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
+        // Scroll în sus sau aproape de partea de sus a paginii
+        isScrollingDown = false;
+        clearTimeout(hideTimeout); // Anulăm timeout-ul dacă utilizatorul derulează în sus
+        topBar.classList.remove('hidden'); // Afișăm bara imediat
+      }
+
+      lastScrollY = currentScrollY;
+    });
+  </script>
+</body>
+</html>
 
